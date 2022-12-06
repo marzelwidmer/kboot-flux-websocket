@@ -1,0 +1,23 @@
+
+
+brew install websocat
+brew install websocketd
+
+
+
+vi  ./count.sh
+
+#!/bin/bash
+for ((COUNT = 1; COUNT <= 10; COUNT++)); do
+echo $COUNT
+sleep 1
+done
+
+
+chmod +x count.sh
+
+
+websocketd "--port=8080" ./count.sh
+
+
+websocat ws://127.0.0.1:8080
