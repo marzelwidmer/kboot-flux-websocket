@@ -12,12 +12,22 @@ import java.util.Map
 
 @Configuration
 class WebSocketConfig @Autowired constructor(private val webSocketHandler: WebSocketHandler) {
+
     @Bean
     fun handlerMapping(): HandlerMapping {
         val path = "/push"
         val map = Map.of(path, webSocketHandler)
         return SimpleUrlHandlerMapping(map, -1)
     }
+
+
+    @Bean
+    fun fooBarHandlerMapping(): HandlerMapping {
+        val path = "/foobar"
+        val map = Map.of(path, webSocketHandler)
+        return SimpleUrlHandlerMapping(map, -1)
+    }
+
 
     @Bean
     fun wsHandlerAdapter(): HandlerAdapter {

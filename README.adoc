@@ -21,3 +21,11 @@ websocketd "--port=8080" ./count.sh
 
 
 websocat ws://127.0.0.1:8080
+
+
+
+
+
+websocat ws://localhost:8080/push
+
+{"name":"event","count":0}

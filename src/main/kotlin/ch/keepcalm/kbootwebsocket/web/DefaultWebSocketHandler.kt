@@ -4,7 +4,6 @@ import ch.keepcalm.kbootwebsocket.model.Event
 import ch.keepcalm.kbootwebsocket.service.EventUnicastService
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketMessage
@@ -12,10 +11,12 @@ import org.springframework.web.reactive.socket.WebSocketSession
 import reactor.core.publisher.Mono
 
 @Component
-class DefaultWebSocketHandler @Autowired constructor(private val eventUnicastService: EventUnicastService, private val objectMapper: ObjectMapper) : WebSocketHandler {
+class DefaultWebSocketHandler(private val eventUnicastService: EventUnicastService, private val objectMapper: ObjectMapper) : WebSocketHandler {
 
     override fun handle(session: WebSocketSession): Mono<Void> {
+
         val messages = session.receive() // .doOnNext(message -> { read message here or in the block below })
+
             .flatMap { message: WebSocketMessage? -> eventUnicastService.messages }
             .flatMap { o: Event? ->
                 try {
@@ -24,6 +25,7 @@ class DefaultWebSocketHandler @Autowired constructor(private val eventUnicastSer
                     return@flatMap Mono.error<String>(e)
                 }
             }.map { payload: String? -> session.textMessage(payload!!) }
+
         return session.send(messages)
     }
 }
