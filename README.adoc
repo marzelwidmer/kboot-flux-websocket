@@ -1,10 +1,13 @@
 
 
+.Brew Tools
+----
 brew install websocat
 brew install websocketd
+----
 
-
-
+.Create Script
+----
 vi  ./count.sh
 
 #!/bin/bash
@@ -12,20 +15,29 @@ for ((COUNT = 1; COUNT <= 10; COUNT++)); do
 echo $COUNT
 sleep 1
 done
+----
 
 
+.Script chmod
+----
 chmod +x count.sh
+----
 
-
+.Server
+----
 websocketd "--port=8080" ./count.sh
+----
 
-
+.Client
+----
 websocat ws://127.0.0.1:8080
+----
 
-
-
-
-
-websocat ws://localhost:8080/push
+.Client
+----
+websocat ws://localhost:8080/counter
 
 {"name":"event","count":0}
+{"name":"event","count":1}
+{"name":"event","count":2}
+----
