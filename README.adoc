@@ -6,6 +6,8 @@ brew install websocat
 brew install websocketd
 ----
 
+# Standalone WebSocket Server
+
 .Create Script
 ----
 vi  ./count.sh
@@ -31,6 +33,13 @@ websocketd "--port=8080" ./count.sh
 .Client
 ----
 websocat ws://127.0.0.1:8080
+----
+
+
+# Spring Boot App
+.Start SpringBoot Application
+----
+mvn clean spring-boot:run
 ----
 
 .Client
